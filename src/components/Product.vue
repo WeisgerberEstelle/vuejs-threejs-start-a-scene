@@ -11,10 +11,14 @@ export default {
       scene: undefined,
       camera: undefined,
       renderer: undefined,
+      controls: undefined,
+      groundMaterial: undefined,
+      image: "../assets/logo.png",
     };
   },
   props: {
     material: Object,
+    colors: Array,
   },
   methods: {
     init() {
@@ -45,9 +49,8 @@ export default {
         1,
         1000
       );
-      
 
-    //Floor : Adding floor
+      //Floor : Adding floor
       const floorGeometry = new THREE.PlaneGeometry(5000, 5000, 1, 1);
       const floorMaterial = new THREE.MeshPhongMaterial({
         color: "lightblue",
@@ -64,11 +67,12 @@ export default {
       // END: Adding camera
 
       // START: Adding controls
-      const controls = new OrbitControls(this.camera, this.renderer.domElement);
-
-      //controls.enablePan = false;
-      controls.target.set(0, 0, 0);
-      controls.addEventListener("change", this.renderScene); // use if there is no animation loop
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.controls.autoRotate = false;
+      this.controls.enablePan = false;
+      this.controls.enableDamping = true;
+      this.controls.target.set(0, 0, 0);
+      this.controls.addEventListener("change", this.renderScene); // use if there is no animation loop
       window.addEventListener("resize", () => this.onWindowResize(), false);
       // END: Adding controls
 
@@ -100,7 +104,11 @@ export default {
       this.scene.add(hemiLight);
 
       // END: Adding light
-
+      const swatches = document.querySelectorAll(".tray__swatch");
+      console.log(swatches)
+      for (const swatch of swatches) {
+        swatch.addEventListener("click", () => console.log("hy"));
+      }
       // START: Adding gtlf model
       //   let loader = new GLTFLoader();
       //   loader.load(
@@ -114,34 +122,60 @@ export default {
       //     }
       //   );
       // END: Adding gtlf model
+      //texture loader
 
+      // const loader = new THREE.TextureLoader();
+      // const logo = loader.load("../assets/logo.png")
+      // console.log(logo);
       //Add an object
       const groundGeometry = new THREE.BoxGeometry(8, 2, 8);
-      const groundMaterial = this.material.mtl;
-      const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+      this.groundMaterial = this.material.mtl;
+      const groundMesh = new THREE.Mesh(groundGeometry, this.groundMaterial);
       groundMesh.receiveShadow = true;
       groundMesh.castShadow = true;
-      groundMesh.position.set(0,-2,-3);
+      groundMesh.position.set(0, -2, -3);
       groundMesh.nameID = this.material.childID;
-      console.log(groundMesh);
+
       this.scene.add(groundMesh);
 
       this.animate();
     },
+
+    // render scene
     renderScene() {
       this.renderer.render(this.scene, this.camera);
     },
 
+    //loop animation
     animate() {
       // NOTE: Window is implied.
       // requestAnimationFrame(this.animate.bind(this));
       window.requestAnimationFrame(this.animate.bind(this));
       this.renderScene();
+      this.controls.update();
     },
+    // if wi
     onWindowResize() {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
+    },
+
+    setMaterial(material) {
+      this.groundMaterial = material;
+    },
+
+    selectSwatch() {
+      // let color = this.colors[parseInt(e.target.dataset.key)];
+      // let new_mtl;
+
+      // new_mtl = new THREE.MeshPhongMaterial({
+      //   color: parseInt("0x" + color.color),
+      //   shininess: color.shininess ? color.shininess : 10,
+      // });
+
+      // this.setMaterial(new_mtl);
+      console.log("hey")
     },
   },
   mounted() {
