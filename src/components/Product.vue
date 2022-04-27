@@ -13,6 +13,9 @@ export default {
       renderer: undefined,
     };
   },
+  props: {
+    material: Object,
+  },
   methods: {
     init() {
       const BACKGROUND_COLOR = "pink";
@@ -42,21 +45,22 @@ export default {
         1,
         1000
       );
+      
 
     //Floor : Adding floor
       const floorGeometry = new THREE.PlaneGeometry(5000, 5000, 1, 1);
       const floorMaterial = new THREE.MeshPhongMaterial({
-        color: 0xff0000,
+        color: "lightblue",
         shininess: 0,
       });
 
       var floor = new THREE.Mesh(floorGeometry, floorMaterial);
       floor.rotation.x = -0.5 * Math.PI;
       floor.receiveShadow = true;
-      floor.position.y = -10;
+      floor.position.y = -4;
       this.scene.add(floor);
 
-      this.camera.position.set(0, 0, 16);
+      this.camera.position.set(0, 3, 16);
       // END: Adding camera
 
       // START: Adding controls
@@ -69,14 +73,14 @@ export default {
       // END: Adding controls
 
       // START: Adding light
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-      directionalLight.position.set(0, 1, 0);
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      directionalLight.position.set(3, 3, 0);
       directionalLight.castShadow = true;
       this.scene.add(directionalLight);
 
-      const light = new THREE.PointLight(0xffffcc, 0.5);
-      light.position.set(0, 600, 1000);
-      this.scene.add(light);
+      // const light = new THREE.PointLight(0xffffcc, 0.5);
+      // light.position.set(0, 600, 1000);
+      // this.scene.add(light);
 
       const light2 = new THREE.PointLight(0xe6f7ff, 0.5);
       light2.position.set(1000, 200, 0);
@@ -113,10 +117,13 @@ export default {
 
       //Add an object
       const groundGeometry = new THREE.BoxGeometry(8, 2, 8);
-      const groundMaterial = new THREE.MeshPhongMaterial({ color: 0xfafafa });
+      const groundMaterial = this.material.mtl;
       const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
       groundMesh.receiveShadow = true;
-      groundMesh.position.y = -2;
+      groundMesh.castShadow = true;
+      groundMesh.position.set(0,-2,-3);
+      groundMesh.nameID = this.material.childID;
+      console.log(groundMesh);
       this.scene.add(groundMesh);
 
       this.animate();
