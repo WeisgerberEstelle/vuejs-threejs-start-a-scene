@@ -119,7 +119,7 @@ export default {
     
         // loader.load(
         //   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb",
-        //   data => {
+        //  function( data) {
         //     var object = data.scene;
         //     object.position.set(0,0,0);
         //     this.scene.add(object);
