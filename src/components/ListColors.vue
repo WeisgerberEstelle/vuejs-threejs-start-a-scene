@@ -4,8 +4,9 @@
       <div id="js-tray-slide" class="tray__slide">
         <div :key="color.color" v-for="color in colors">
           <ColorOption
+          :data-key="color.color"
             :color="color.color"
-            @color-click="$emit('ChoseAColor')"
+            @color-click="$emit('color-click', $event)"
           />
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
   <div
-    @click="onClick()"
+    @click="$emit('color-click', $event);"
     class="tray__swatch"
     :style="{ background: `#${color}`}"
   ></div>
@@ -11,11 +11,6 @@ export default {
   name: "ColorOption",
   props: {
     color: String,
-  },
-  methods: {
-    onClick() {
-      this.$emit("color-click");
-    },
   },
 };
 </script>

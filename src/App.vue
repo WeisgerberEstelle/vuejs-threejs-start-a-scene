@@ -1,13 +1,11 @@
 <template>
   <div id="app">
     <Product :material="material" :colors="colors" />
-    <ListColors :colors="colors" @chose-a-color="ChoseAColor"/>
   </div>
 </template>
 
 <script>
 import Product from "./components/Product";
-import ListColors from "./components/ListColors";
 import { MeshPhongMaterial } from "three";
 
 const INITIAL_MTL = new MeshPhongMaterial({ color: 0xf1f1f1, shininess: 10 });
@@ -37,12 +35,6 @@ export default {
   },
   components: {
     Product,
-    ListColors,
-  },
-  methods: {
-    ChoseAColor(){
-      console.log("coucou");
-    }
   }
 };
 </script>

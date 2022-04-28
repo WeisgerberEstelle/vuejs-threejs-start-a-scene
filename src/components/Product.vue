@@ -1,9 +1,15 @@
 <template>
-  <div id="myThreeJsCanvas"></div>
+  <div>
+    <div id="myThreeJsCanvas"></div>
+    <ListColors :colors="colors" @color-click="ChoseAColor($event)" />
+  </div>
 </template>
 <script>
 import * as THREE from "three";
+import ListColors from "./ListColors";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+//import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 export default {
   name: "ProductView",
   data() {
@@ -13,13 +19,17 @@ export default {
       renderer: undefined,
       controls: undefined,
       groundMaterial: undefined,
-      image: "../assets/logo.png",
+      groundMesh:undefined,
     };
+  },
+  components: {
+    ListColors,
   },
   props: {
     material: Object,
     colors: Array,
   },
+
   methods: {
     init() {
       const BACKGROUND_COLOR = "pink";
@@ -102,25 +112,19 @@ export default {
       hemiLight.position.set(0, 50, 0);
       // Ajoute une lumière hémisphérique à la scène
       this.scene.add(hemiLight);
-
       // END: Adding light
-      const swatches = document.querySelectorAll(".tray__swatch");
-      console.log(swatches)
-      for (const swatch of swatches) {
-        swatch.addEventListener("click", () => console.log("hy"));
-      }
+
       // START: Adding gtlf model
-      //   let loader = new GLTFLoader();
-      //   loader.load(
-      //     this.modelSettings.link,
-      //     data => {
-      //       var object = data.scene;
-      //       object.position.set(0,0,0);
-      //       if(this.modelSettings.scale) object.scale.set(this.modelSettings.scale, this.modelSettings.scale, this.modelSettings.scale);
-      //       this.scene.add(object);
-      //       this.renderScene();
-      //     }
-      //   );
+        // let loader = new GLTFLoader();
+    
+        // loader.load(
+        //   "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/chair.glb",
+        //   data => {
+        //     var object = data.scene;
+        //     object.position.set(0,0,0);
+        //     this.scene.add(object);
+        //   }
+        // );
       // END: Adding gtlf model
       //texture loader
 
@@ -129,14 +133,15 @@ export default {
       // console.log(logo);
       //Add an object
       const groundGeometry = new THREE.BoxGeometry(8, 2, 8);
-      this.groundMaterial = this.material.mtl;
-      const groundMesh = new THREE.Mesh(groundGeometry, this.groundMaterial);
-      groundMesh.receiveShadow = true;
-      groundMesh.castShadow = true;
-      groundMesh.position.set(0, -2, -3);
-      groundMesh.nameID = this.material.childID;
+      this.groundMaterial = new THREE.MeshPhongMaterial({ color: "pink", shininess:5 });
+    
+      this.groundMesh = new THREE.Mesh(groundGeometry, this.groundMaterial);
+      this.groundMesh.receiveShadow = true;
+      this.groundMesh.castShadow = true;
+      this.groundMesh.position.set(0, -2, -3);
+      this.groundMesh.nameID = this.material.childID;
 
-      this.scene.add(groundMesh);
+      this.scene.add(this.groundMesh);
 
       this.animate();
     },
@@ -160,24 +165,27 @@ export default {
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     },
+    ChoseAColor(event) {
+    //think about pass an object not a string
+    let color = event.target.dataset.key;
+      
+    // let new_mtl;
 
-    setMaterial(material) {
-      this.groundMaterial = material;
+    // new_mtl = new THREE.MeshPhongMaterial({
+    // color: "blue",
+    // shininess: 10,
+    // transparent:true,
+    // });
+    // this.setMaterial(new_mtl);
+    this.groundMaterial =new THREE.MeshPhongMaterial({
+     color: "#"+color,
+     shininess: 10,
+     });
+       this.groundMesh.material=this.groundMaterial;
     },
 
-    selectSwatch() {
-      // let color = this.colors[parseInt(e.target.dataset.key)];
-      // let new_mtl;
-
-      // new_mtl = new THREE.MeshPhongMaterial({
-      //   color: parseInt("0x" + color.color),
-      //   shininess: color.shininess ? color.shininess : 10,
-      // });
-
-      // this.setMaterial(new_mtl);
-      console.log("hey")
-    },
   },
+
   mounted() {
     this.init();
   },
