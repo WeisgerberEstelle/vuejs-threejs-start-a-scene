@@ -30,12 +30,24 @@ export default {
         {
           color: "438AAC",
         },
+        {
+          texture:
+            "https://cdn.pixabay.com/photo/2018/04/22/12/25/flowers-3340913_960_720.png",
+          size: [2, 2, 2],
+          shininess: 60,
+        },
+        {
+          texture:
+            "https://cdn.pixabay.com/photo/2018/04/06/15/17/pattern-3296033_960_720.png",
+          size: [3, 3, 3],
+          shininess: 0,
+        },
       ],
     };
   },
   components: {
     Product,
-  }
+  },
 };
 </script>
 

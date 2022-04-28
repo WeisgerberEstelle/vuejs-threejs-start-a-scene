@@ -2,10 +2,10 @@
   <div class="controls">
     <div id="js-tray" class="tray">
       <div id="js-tray-slide" class="tray__slide">
-        <div :key="color.color" v-for="color in colors">
+        <div :key="color.color" v-for="(color, index) in colors">
           <ColorOption
-          :data-key="color.color"
-            :color="color.color"
+          :data-key="index"
+            :color="color"
             @color-click="$emit('color-click', $event)"
           />
         </div>
