@@ -16,48 +16,6 @@ export default {
       material: { childID: "cube", mtl: INITIAL_MTL },
       colors: [
         {
-          color: "131417",
-        },
-        {
-          color: "374047",
-        },
-        {
-          color: "5f6e78",
-        },
-        {
-          color: "7f8a93",
-        },
-        {
-          color: "97a1a7",
-        },
-        {
-          color: "acb4b9",
-        },
-        {
-          color: "DF9998",
-        },
-        {
-          color: "7C6862",
-        },
-        {
-          color: "A3AB84",
-        },
-        {
-          color: "D6CCB1",
-        },
-        {
-          color: "F8D5C4",
-        },
-        {
-          color: "A3AE99",
-        },
-        {
-          color: "EFF2F2",
-        },
-        {
-          color: "B0C5C1",
-        },
-        {
           color: "8B8C8C",
         },
         {
@@ -193,6 +151,10 @@ export default {
   box-sizing: border-box;
 }
 
+* {
+    touch-action: manipulation;
+}
+
 body,
 html {
   margin: 0;
@@ -236,8 +198,8 @@ html {
   position: absolute;
   display: flex;
   left: 0;
-  /*   transform: translateX(-50%);
-  animation: wheelin 1s 2s ease-in-out forwards; */
+  transform: translateX(-50%);
+  animation: wheelin 1s 2s ease-in-out forwards;
 }
 
 .tray__swatch {
@@ -252,5 +214,19 @@ html {
 
 .tray__swatch:nth-child(5n + 5) {
   margin-right: 20px;
+}
+
+@-webkit-keyframes wheelin {
+    to {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes wheelin {
+    to {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
 }
 </style>

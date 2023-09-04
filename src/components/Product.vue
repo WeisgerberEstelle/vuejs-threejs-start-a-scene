@@ -133,9 +133,21 @@ export default {
       // console.log(logo);
       //Add an object
       const groundGeometry = new THREE.BoxGeometry(8, 2, 8);
-      this.groundMaterial = new THREE.MeshPhongMaterial({
-        color: "pink",
-        shininess: 5,
+      // this.groundMaterial = new THREE.MeshPhongMaterial({
+      //   color: "pink",
+      //   shininess: 5,
+      // });
+
+      var loader = new THREE.TextureLoader();
+      this.groundMaterial = [
+        "https://cdn.pixabay.com/photo/2018/04/22/12/16/pattern-3340885_960_720.png",
+        "https://cdn.pixabay.com/photo/2022/04/10/01/40/background-7122533_960_720.jpg",
+        "https://cdn.pixabay.com/photo/2021/09/04/13/47/flowers-6597862_960_720.png",
+        "https://cdn.pixabay.com/photo/2018/04/22/12/25/flowers-3340913_960_720.png",
+        "https://cdn.pixabay.com/photo/2017/08/30/13/23/mesh-2697072_960_720.png",
+        "https://cdn.pixabay.com/photo/2016/03/06/16/23/background-1240686_960_720.png",
+      ].map((pic) => {
+        return new THREE.MeshLambertMaterial({ map: loader.load(pic) });
       });
 
       this.groundMesh = new THREE.Mesh(groundGeometry, this.groundMaterial);
@@ -162,7 +174,7 @@ export default {
       this.renderScene();
       this.controls.update();
     },
-    // if wi
+    // if window is resized
     onWindowResize() {
       this.camera.aspect = window.innerWidth / window.innerHeight;
       this.camera.updateProjectionMatrix();
